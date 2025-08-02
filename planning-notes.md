@@ -115,11 +115,18 @@ Where possible, I aim to integrate real financial data from publicly available s
 
 ## 🧪 6. Synthetic Data Plan
 
-- Define number of departments (e.g., HR, IT, Ops, Marketing)
-- Define categories (e.g., Salaries, Travel, Software, Rent)
-- Add seasonality or trends (e.g., Q4 marketing spike, rent stable)
-- Introduce variance and noise
-- Simulate monthly data for 2 years
+To create a realistic dataset for development and testing, I simulate monthly budget, forecast, and actual spending data over a 24-month period.
+
+**Key design choices:**
+
+- **Departments:** HR, IT, Operations, Marketing, Sales, Finance  
+- **Expense Categories:** Salaries, Travel, Software, Rent, Training, Supplies  
+- **Time Range:** Monthly data for 24 months starting January 2023  
+- **Seasonality:** For example, Marketing expenses spike in Q4 (holiday campaigns)  
+- **Trends:** Gradual monthly increases in some categories to reflect growth  
+- **Variance & Noise:** Random noise added to forecasts and actuals to simulate real-world variability, including occasional outliers
+
+The resulting dataset will have columns for `Date`, `Department`, `Category`, `Budget`, `Forecast`, and `Actual`. This structure supports variance analysis, forecasting validation, and scenario modeling.
 
 ---
 
