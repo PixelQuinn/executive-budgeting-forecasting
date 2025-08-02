@@ -68,9 +68,32 @@ This tool helps executives answer: "How are we performing against our plan, and 
 
 ## 📈 4. Use Cases & User Scenarios
 
-- **Scenario A**: CFO reviewing Q2 burn rate and adjusting forecasts
-- **Scenario B**: Department Head requesting more budget mid-quarter
-- **Scenario C**: Finance Manager presenting variance summary to exec board
+### Use Cases
+
+- **Executive Financial Review:**  
+  The CFO reviews quarterly financial performance, comparing budget, actuals, and forecasts to identify key variances and assess organizational health.
+
+- **Departmental Budget Management:**  
+  Department heads submit monthly budget updates and review variance reports to ensure spending aligns with approved budgets.
+
+- **Forecast Adjustment & Scenario Testing:**  
+  FP&A analysts run “what-if” scenarios such as cost reduction initiatives or revenue growth changes to predict impacts on cash flow and profitability.
+
+- **Board Presentation Preparation:**  
+  Finance teams generate clear, concise dashboards and reports for board meetings, highlighting financial risks and opportunities.
+
+---
+
+### User Scenarios
+
+#### Scenario A: CFO Marie L.  
+Marie logs into the dashboard before the quarterly executive meeting to review actual vs. budget variances across departments. She drills down into the marketing budget where she notices overspending and uses scenario tools to evaluate potential corrective actions.
+
+#### Scenario B: FP&A Analyst Jason R.  
+Jason updates the forecast with new sales data from the field. He tests multiple scenarios including a delay in product launch and quickly generates reports to communicate the financial impact to leadership.
+
+#### Scenario C: Operations Director Linda M.  
+Linda reviews her department’s monthly variance report, identifies unexpected costs, and submits an updated forecast with explanations through the system, ensuring transparency and accountability.
 
 ---
 
