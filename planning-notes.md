@@ -103,11 +103,13 @@ Linda reviews her department’s monthly variance report, identifies unexpected 
   - Budget, Actuals, Forecasts
 - Revenue and cost streams
 - Departments / business units
-- Time period coverage (e.g. 24 months)
+- Time period coverage (e.g., 24 months)
 
 **Planned Format:**  
-- Synthetic data (initially)
-- Tabular format: `Date`, `Department`, `Account`, `Budget`, `Actual`, `Forecast`
+- Synthetic data (initially) to facilitate controlled testing and scenario modeling.
+
+**Real Data Considerations:**  
+Where possible, I aim to integrate real financial data from publicly available sources such as SEC filings, open government budgets, or financial datasets from SimFin and Kaggle. This will enhance the project’s authenticity and provide exposure to real-world data challenges.
 
 ---
 
