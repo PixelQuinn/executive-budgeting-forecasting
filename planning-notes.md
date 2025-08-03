@@ -126,19 +126,19 @@ To create a realistic dataset for development and testing, I simulate monthly bu
 - **Trends:** Gradual monthly increases in some categories to reflect growth  
 - **Variance & Noise:** Random noise added to forecasts and actuals to simulate real-world variability, including occasional outliers
 
-The resulting dataset will have columns for `Date`, `Department`, `Category`, `Budget`, `Forecast`, and `Actual`. This structure supports variance analysis, forecasting validation, and scenario modeling.
+The resulting dataset will have columns for `Date`.  `Department`, `Category`, `Budget`, `Forecast`, and `Actual`. This structure supports variance analysis, forecasting validation, and scenario modeling.
 
 ---
 
 ## 🛠️ 7. Tools & Technologies
 
-| Purpose         | Tools                                |
-|-----------------|--------------------------------------|
-| Data Analysis   | Python (pandas, NumPy)               |
-| Forecasting     | statsmodels, Prophet, or ARIMA       |
-| Visualization   | Power BI / Tableau / Plotly / Altair |
-| Exporting       | Excel (`pandas.to_excel`)            |
-| Optional Backend| SQL (if you want realistic structure) |
+| Purpose         | Tools                                             |
+|-----------------|---------------------------------------------------|
+| Data Analysis   | Python (`pandas`, `NumPy`)                        |
+| Forecasting     | `statsmodels`, `Prophet`, `ARIMA`                 |
+| Visualization   | Power BI (primary) / Plotly                       |
+| Exporting       | Excel (`pandas.to_excel`)                         |
+| Optional Backend| SQL (`SQLite`, `PostgreSQL`, `TBD`)    |
 
 ---
 
