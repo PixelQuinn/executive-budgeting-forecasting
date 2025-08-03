@@ -145,15 +145,22 @@ The resulting dataset will have columns for `Date`.  `Department`, `Category`, `
 ## 🧩 8. Feature Scope
 
 ### ✅ MVP Features
-- Budget vs Actual variance tracker
-- Forecasting module
-- Interactive executive dashboard
-- Department-level breakdowns
+- **Budget vs Actual Variance Tracker**  
+  Visualizes financial performance across time, highlighting over- and under-spend.
+- **Forecasting Module**  
+  Generates projections using time series models for key financial metrics.
+- **Interactive Executive Dashboard**  
+  Built with Power BI to summarize KPIs and financial trends for leadership.
+- **Department-Level Breakdowns**  
+  Enables filtering and analysis by departments (e.g., HR, IT, Marketing).
 
 ### 🚀 Stretch Features
-- Scenario modeling inputs (growth %, cost cuts, etc.)
-- Monte Carlo simulation
-- Exportable reports (Excel, PDF)
+- **Scenario Modeling Inputs**  
+  User-driven sliders or inputs for testing growth rates, hiring freezes, etc.
+- **Monte Carlo Simulation**  
+  Adds probabilistic forecasting to reflect risk and uncertainty in projections.
+- **Exportable Reports**  
+  Automatically generates Excel or PDF reports for distribution.
 
 ---
 
