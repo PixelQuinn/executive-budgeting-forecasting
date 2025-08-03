@@ -168,11 +168,11 @@ The resulting dataset will have columns for `Date`.  `Department`, `Category`, `
 
 | Milestone                        | Estimated Date     | Status   |
 |----------------------------------|--------------------|----------|
-| Planning Phase Finalized         | 08/02/2025         | - [ ]    |
-| Synthetic Data Created           | TBD                | - [ ]    |
-| Forecasting Model Implemented    | TBD                | - [ ]    |
-| Dashboard Built                  | TBD                | - [ ]    |
-| Final Report & Portfolio Writeup | TBD                | - [ ]    |
+| Planning Phase Finalized         | 08/02/2025         |   [X]    |
+| Synthetic Data Created           | TBD                |   [ ]    |
+| Forecasting Model Implemented    | TBD                |   [ ]    |
+| Dashboard Built                  | TBD                |   [ ]    |
+| Final Report & Portfolio Writeup | TBD                |   [ ]    |
 
 ---
 
