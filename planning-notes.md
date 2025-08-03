@@ -166,14 +166,13 @@ The resulting dataset will have columns for `Date`.  `Department`, `Category`, `
 
 ## 📆 9. Timeline & Milestones
 
-| Milestone                        | Estimated Date     | Status  |
-|----------------------------------|--------------------|---------|
-| Pre-Project Learning Complete    | [Insert date]      | 🔲      |
-| Planning Phase Finalized         | [Insert date]      | 🔲      |
-| Synthetic Data Created           | [Insert date]      | 🔲      |
-| Forecasting Model Implemented    | [Insert date]      | 🔲      |
-| Dashboard Built                  | [Insert date]      | 🔲      |
-| Final Report & Portfolio Writeup | [Insert date]      | 🔲      |
+| Milestone                        | Estimated Date     | Status   |
+|----------------------------------|--------------------|----------|
+| Planning Phase Finalized         | 08/02/2025         | - [ ]    |
+| Synthetic Data Created           | TBD                | - [ ]    |
+| Forecasting Model Implemented    | TBD                | - [ ]    |
+| Dashboard Built                  | TBD                | - [ ]    |
+| Final Report & Portfolio Writeup | TBD                | - [ ]    |
 
 ---
 
@@ -188,15 +187,30 @@ The resulting dataset will have columns for `Date`.  `Department`, `Category`, `
 
 ## 🧾 11. Portfolio Presentation Plan
 
-- Overview section with clear business problem
-- Highlight tools, skills, and KPIs tackled
-- Screenshots of dashboard + charts
-- Link to GitHub repo with:
-  - `README.md`
-  - `/notebooks/`
-  - `/data/`
-  - `/dashboard/`
-- Optional: 60-second project summary script for LinkedIn
+- **Project Overview**  
+  Clear description of the business problem and value of the solution.
+
+- **Skills & Tools Highlighted**  
+  Emphasize forecasting, data analysis, dashboard design, and finance KPIs (e.g. variance, runway, burn rate).
+
+- **Visual Portfolio Elements**  
+  Include screenshots of:
+  - Dashboard (Power BI)
+  - Key plots (e.g., forecast vs. actual)
+
+- **GitHub Repo Structure**
+  ```
+  /budget-forecasting-project/
+  ├── README.md
+  ├── /data/
+  ├── /notebooks/
+  ├── /dashboard/
+  └── /scripts/
+  ```
+
+- **Project Summary Script** *(for LinkedIn / portfolio video or post)*
+  - A 60-second narrative that explains what the project does, who it helps, and what you built.
+  - Focus on impact, not just tools.
 
 ---
 
