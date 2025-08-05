@@ -169,7 +169,7 @@ The resulting dataset will have columns for `Date`.  `Department`, `Category`, `
 | Milestone                        | Estimated Date     | Completed  |
 |----------------------------------|--------------------|------------|
 | Planning Phase Finalized         | 08/02/2025         | 08/02/2025 | 
-| Pre-Leaarning/Brush-up           | 08/06/2025         |   [ ]      |
+| Pre-Leaarning/Brush-up           | 08/06/2025         | 08/05/2025 |
 | Synthetic Data Created           | TBD                |   [ ]      |
 | Forecasting Model Implemented    | TBD                |   [ ]      |
 | Dashboard Built                  | TBD                |   [ ]      |
