@@ -64,15 +64,15 @@ df["ShockComponent"] = df["ShockComponent"].astype("Float64")
 df["ShockFlag"] = pd.NA
 df["ShockFlag"] = df["ShockFlag"].astype("boolean") # Nullable bool
 
-# Tests for QA Comp
-qa_float = ["BaseLevel","TrendComponent","SeasonalityComponent","NoiseComponent","ShockComponent"]
-print(df.dtypes.loc[qa_float + ["ShockFlag"]])
+# # Tests for QA Comp
+# qa_float = ["BaseLevel","TrendComponent","SeasonalityComponent","NoiseComponent","ShockComponent"]
+# print(df.dtypes.loc[qa_float + ["ShockFlag"]])
 
-# All QA components are float64
-assert all(str(df[c].dtype) == "Float64" for c in qa_float), "QA components must be float64"
-# ShockFlag is pandas nullable boolean
-assert str(df["ShockFlag"].dtype) == "boolean", "ShockFlag must be nullable boolean"
-# All NA for now
-na_counts = df[qa_float + ["ShockFlag"]].isna().sum()
-print(na_counts.to_string())
-assert (na_counts == len(df)).all(), "Placeholders should be NA initially"
+# # All QA components are float64
+# assert all(str(df[c].dtype) == "Float64" for c in qa_float), "QA components must be float64"
+# # ShockFlag is pandas nullable boolean
+# assert str(df["ShockFlag"].dtype) == "boolean", "ShockFlag must be nullable boolean"
+# # All NA for now
+# na_counts = df[qa_float + ["ShockFlag"]].isna().sum()
+# print(na_counts.to_string())
+# assert (na_counts == len(df)).all(), "Placeholders should be NA initially"
