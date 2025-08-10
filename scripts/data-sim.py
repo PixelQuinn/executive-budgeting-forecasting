@@ -47,19 +47,32 @@ df["Month"] = df["Month"].astype("period[M]")
 
 # --- QA (silver) component columns (placeholder: float64, Shock Flag: Boolean) ---
 df["BaseLevel"] = pd.NA
-df["BaseLevel"] = df["BaseLevel"].astype("float64")
+df["BaseLevel"] = df["BaseLevel"].astype("Float64")
 
 df["TrendComponent"] = pd.NA
-df["TrendComponent"] = df["TrendComponent"].astype("float64")
+df["TrendComponent"] = df["TrendComponent"].astype("Float64")
 
 df["SeasonalityComponent"] = pd.NA
-df["SeasonalityComponent"] = df["SeasonalityComponent"].astype("float64")
+df["SeasonalityComponent"] = df["SeasonalityComponent"].astype("Float64")
 
 df["NoiseComponent"] = pd.NA
-df["NoiseComponent"] = df["NoiseComponent"].astype("float64")
+df["NoiseComponent"] = df["NoiseComponent"].astype("Float64")
 
 df["ShockComponent"] = pd.NA
-df["ShockComponent"] = df["ShockComponent"].astype("float64")
+df["ShockComponent"] = df["ShockComponent"].astype("Float64")
 
 df["ShockFlag"] = pd.NA
 df["ShockFlag"] = df["ShockFlag"].astype("boolean") # Nullable bool
+
+# Tests for QA Comp
+qa_float = ["BaseLevel","TrendComponent","SeasonalityComponent","NoiseComponent","ShockComponent"]
+print(df.dtypes.loc[qa_float + ["ShockFlag"]])
+
+# All QA components are float64
+assert all(str(df[c].dtype) == "Float64" for c in qa_float), "QA components must be float64"
+# ShockFlag is pandas nullable boolean
+assert str(df["ShockFlag"].dtype) == "boolean", "ShockFlag must be nullable boolean"
+# All NA for now
+na_counts = df[qa_float + ["ShockFlag"]].isna().sum()
+print(na_counts.to_string())
+assert (na_counts == len(df)).all(), "Placeholders should be NA initially"
