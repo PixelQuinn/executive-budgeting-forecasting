@@ -44,3 +44,22 @@ df["Month"] = df["Month"].astype("period[M]")
 # g = df.groupby("Department")["Month"].nunique()
 # print(g.to_string())  # peek counts per dept
 # assert (g == len(MONTHS)).all(), "Some departments are missing months"
+
+# --- QA (silver) component columns (placeholder: float64, Shock Flag: Boolean) ---
+df["BaseLevel"] = pd.NA
+df["BaseLevel"] = df["BaseLevel"].astype("float64")
+
+df["TrendComponent"] = pd.NA
+df["TrendComponent"] = df["TrendComponent"].astype("float64")
+
+df["SeasonalityComponent"] = pd.NA
+df["SeasonalityComponent"] = df["SeasonalityComponent"].astype("float64")
+
+df["NoiseComponent"] = pd.NA
+df["NoiseComponent"] = df["NoiseComponent"].astype("float64")
+
+df["ShockComponent"] = pd.NA
+df["ShockComponent"] = df["ShockComponent"].astype("float64")
+
+df["ShockFlag"] = pd.NA
+df["ShockFlag"] = df["ShockFlag"].astype("boolean") # Nullable bool
