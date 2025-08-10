@@ -45,7 +45,7 @@ df["Month"] = df["Month"].astype("period[M]")
 # print(g.to_string())  # peek counts per dept
 # assert (g == len(MONTHS)).all(), "Some departments are missing months"
 
-# --- QA (silver) component columns (placeholder: float64, Shock Flag: Boolean) ---
+# --- QA (silver) component columns (placeholder: Float64(nullable), Shock Flag: Boolean) ---
 df["BaseLevel"] = pd.NA
 df["BaseLevel"] = df["BaseLevel"].astype("Float64")
 
