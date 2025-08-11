@@ -124,3 +124,6 @@ BASE_VALUES = {
     dept: rng.uniform(lo, hi)
     for dept, (lo, hi) in BASE_RANGES.items()
 }
+
+# Map per department base value onto each Department/Month row, keep Float64 nullable dtype
+df["BaseLevel"] = df["Department"].map(BASE_VALUES).astype("Float64")
