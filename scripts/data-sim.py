@@ -179,3 +179,14 @@ SEASON_AMP_RANGES = {"Sales": (0.08, 0.12),
                      "HR": (0.02, 0.04),
                      "Finance": (0.02, 0.04)
 }
+
+# Involve random phase shift to make it realistic
+SEASON_PHASES = { dept: rng.uniform(0, 2*np.pi) for dept in DEPARTMENTS}
+df["SeasonPhase"] = df["Department"].map(SEASON_PHASES).astype("Float64")
+
+# Build the multiplicative factor around 1.0 for sin
+angle = 2 * np.pi * (df["MonthNum"] - 1) / 12
+df["SeasonalityComponent"] = (
+    1 + df["SeasonAmp"] * np.sin(angle + df["SeasonPhase"])
+).astype("Float64")
+
