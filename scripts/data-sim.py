@@ -127,3 +127,5 @@ BASE_VALUES = {
 
 # Map per department base value onto each Department/Month row, keep Float64 nullable dtype
 df["BaseLevel"] = df["Department"].map(BASE_VALUES).astype("Float64")
+
+# Trend component to sim real life trends
