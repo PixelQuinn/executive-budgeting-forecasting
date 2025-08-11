@@ -76,3 +76,33 @@ df["ShockFlag"] = df["ShockFlag"].astype("boolean") # Nullable bool
 # na_counts = df[qa_float + ["ShockFlag"]].isna().sum()
 # print(na_counts.to_string())
 # assert (na_counts == len(df)).all(), "Placeholders should be NA initially"
+
+# --- Final(Gold) Measure Column (Float64 placeholder) ---
+df["Actual"] = pd.NA
+df["Actual"] = df["Actual"].astype("Float64")
+
+df["Budget"] = pd.NA
+df["Budget"] = df["Budget"].astype("Float64")
+
+df["Forecast"] = pd.NA
+df["Forecast"] = df["Forecast"].astype("Float64")
+
+df["Variance"] = pd.NA
+df["Variance"] = df["Variance"].astype("Float64")
+
+df["PctVariance"] = pd.NA
+df["PctVariance"] = df["PctVariance"].astype("Float64")
+
+# # Column tests for Gold columns
+# # 1) Columns present
+# expected = {"Actual","Budget","Forecast","Variance","PctVariance"}
+# assert expected.issubset(df.columns), "Missing one or more final measure columns"
+
+# # 2) Dtypes are nullable Float64
+# print(df[list(expected)].dtypes.to_string())
+# assert all(str(t) == "Float64" for t in df[list(expected)].dtypes), "Final measures must be Float64"
+
+# # 3) Currently all NA
+# na_counts = df[list(expected)].isna().sum()
+# print(na_counts.to_string())
+# assert (na_counts == len(df)).all(), "Final measures should be NA initially"
