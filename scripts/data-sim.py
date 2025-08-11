@@ -168,3 +168,14 @@ df["TrendComponent"] = (
 #       .agg(["first","last"])
 #       .round(2)
 # )
+
+# Setting the month
+df["MonthNum"] = df["Month"].dt.month.astype("Int64")
+
+# Defining boundaries for department amplitude (lo, hi)
+SEASON_AMP_RANGES = {"Sales": (0.08, 0.12),
+                     "Operations": (0.05, 0.08),
+                     "Marketing": (0.06, 0.10),
+                     "HR": (0.02, 0.04),
+                     "Finance": (0.02, 0.04)
+}
