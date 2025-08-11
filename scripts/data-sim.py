@@ -180,9 +180,17 @@ SEASON_AMP_RANGES = {"Sales": (0.08, 0.12),
                      "Finance": (0.02, 0.04)
 }
 
+SEASON_AMPLITUDES = {
+    dept: rng.uniform(lo, hi)
+    for dept, (lo, hi) in SEASON_AMP_RANGES.items()
+}
+
 # Involve random phase shift to make it realistic
 SEASON_PHASES = { dept: rng.uniform(0, 2*np.pi) for dept in DEPARTMENTS}
 df["SeasonPhase"] = df["Department"].map(SEASON_PHASES).astype("Float64")
+
+# Map per department season amp ranges (lo, hi)
+df["SeasonAmp"] = df["Department"].map(SEASON_AMPLITUDES).astype("Float64")
 
 # Build the multiplicative factor around 1.0 for sin
 angle = 2 * np.pi * (df["MonthNum"] - 1) / 12
@@ -190,3 +198,12 @@ df["SeasonalityComponent"] = (
     1 + df["SeasonAmp"] * np.sin(angle + df["SeasonPhase"])
 ).astype("Float64")
 
+# Tests for seasonality
+assert str(df["SeasonalityComponent"].dtype) == "Float64"
+assert df["SeasonalityComponent"].isna().sum() == 0
+
+m = df.groupby("Department")["SeasonalityComponent"].mean()
+print(m.round(4))   # expect ~1.0000 for each dept
+
+mm = df.groupby("Department")["SeasonalityComponent"].agg(["min","max"])
+print(mm.round(4))  # expect min ≈ 1 - amp, max ≈ 1 + amp
