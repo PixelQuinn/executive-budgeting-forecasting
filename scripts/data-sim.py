@@ -111,7 +111,7 @@ df["PctVariance"] = df["PctVariance"].astype("Float64")
 # --- Adding Baseline Data ---
 rng = np.random.default_rng(SEED) # Initialize a reproducible NumPy Generator
 
-# Per department base-level ranges per month, lo/hi are fixed bounds per department.
+# Per department, monthly, base-level ranges per month, lo/hi are fixed bounds per department.
 BASE_RANGES = {"Sales": (400_000, 700_000), 
                "Operations": (250_000, 450_000), 
                "Marketing": (120_000, 250_000), 
@@ -119,7 +119,7 @@ BASE_RANGES = {"Sales": (400_000, 700_000),
                "Finance": (60_000, 120_000)} 
 
 # Draws one base level per department within the lo/hi range. 
-# Rng seeded for reproducability
+# Rng seeded for reproducibility
 BASE_VALUES = {
     dept: rng.uniform(lo, hi)
     for dept, (lo, hi) in BASE_RANGES.items()
