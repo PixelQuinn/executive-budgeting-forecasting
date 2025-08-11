@@ -142,5 +142,29 @@ GROWTH_RATES = {
     for dept, (lo, hi) in TREND_RANGES.items()
 }
 
-# Compute months since first month
-df["MonthIndex"] = (df["Month"] - df["Month"].min()).astype("Int64")
+# Build a position map once, then map Period -> 0..N-1
+pos = {p: i for i, p in enumerate(MONTHS)}
+df["MonthIndex"] = df["Month"].map(pos).astype("Int64")
+
+# Map per department growth rates, staying within our trend ranges
+df["DeptGrowth"] = df["Department"].map(GROWTH_RATES).astype("Float64")
+
+# Trend = BaseLevel * ((1 + growth)^t-1), keep Float64 nullable
+df["TrendComponent"] = (
+    df["BaseLevel"] * (((1 + df["DeptGrowth"]) ** df["MonthIndex"]) - 1)
+).astype("Float64")
+
+# # Test for growth trends
+# # t=0 → trend must be 0
+# assert (df.loc[df["MonthIndex"] == 0, "TrendComponent"].fillna(0) == 0).all()
+
+# # dtype sanity
+# assert str(df["TrendComponent"].dtype) == "Float64"
+
+# # quick first/last view
+# print(
+#     df.sort_values(["Department","MonthIndex"])
+#       .groupby("Department")["TrendComponent"]
+#       .agg(["first","last"])
+#       .round(2)
+# )
