@@ -129,3 +129,9 @@ BASE_VALUES = {
 df["BaseLevel"] = df["Department"].map(BASE_VALUES).astype("Float64")
 
 # Trend component to sim real life trends
+TREND_RANGES = {"Sales": (0.002, 0.008),
+               "Operations": (0.001, 0.005),
+               "Marketing": (0.001, 0.006),
+               "HR": (-0.001, 0.003),
+               "Finance": (-0.001, 0.003)
+}
