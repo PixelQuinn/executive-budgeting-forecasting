@@ -125,7 +125,7 @@ BASE_VALUES = {
     for dept, (lo, hi) in BASE_RANGES.items()
 }
 
-# Map per department base value onto each Department/Month row, keep Float64 nullable dtype
+# Map per department base level ranges (lo, hi)
 df["BaseLevel"] = df["Department"].map(BASE_VALUES).astype("Float64")
 
 # Trend component to sim real life trends
@@ -135,3 +135,12 @@ TREND_RANGES = {"Sales": (0.002, 0.008),
                "HR": (-0.001, 0.003),
                "Finance": (-0.001, 0.003)
 }
+
+# Per department monthly growth rates drawn with rng(reproducible)
+GROWTH_RATES = {
+    dept: rng.uniform(lo, hi)
+    for dept, (lo, hi) in TREND_RANGES.items()
+}
+
+# Compute months since first month
+df["MonthIndex"] = (df["Month"] - df["Month"].min()).astype("Int64")
