@@ -226,3 +226,41 @@ print(mm.round(4))  # expect min ≈ 1 - amp, max ≈ 1 + amp
 # expected_yoy = pd.Series({d: (1 + g)**12 - 1 for d, g in GROWTH_RATES.items()}, name="expected")
 # check = yoy.mean(axis=1).to_frame("yoy_avg").join(expected_yoy)
 # print(check.round(3))
+
+# Simulation for department noise
+NOISE_SIGMA = {"Sales": 0.08,
+               "Operations": 0.06,
+               "Marketing": 0.09,
+               "HR": 0.04,
+               "Finance": 0.03
+}
+
+df["NoiseSigma"] = df["Department"].map(NOISE_SIGMA).astype("Float64")
+
+# Normal scaled by Budget
+df["NoiseComponent"] = (rng.normal(0, 1, size=len(df)) * df["NoiseSigma"] * df["Budget"]).astype("Float64")
+
+# Rare shocks, Sales/Marketing mostly positive(think promos and launches), Ops/HR/Finance mostly negative(Unplanned costs)
+# Probability for a shock
+P_SHOCKS = {"Sales": 0.06,
+            "Operations": 0.05,
+            "Marketing": 0.06,
+            "HR": 0.04,
+            "Finance": 0.04
+}
+
+# Shock locations, signs added for clarity on directional bias
+SHOCK_LOC = {"Sales": +0.03,
+             "Marketing": +0.035,
+             "Operations": -0.02,
+             "HR": -0.015,
+             "Finance": -0.01
+}
+
+# Shock scale to set heaviness of tails
+SHOCK_SCALE = {"Sales": 0.06,
+               "Marketing": 0.07,
+               "Operations": 0.05,
+               "HR": 0.04,
+               "Finance": 0.03
+}
