@@ -242,7 +242,7 @@ df["NoiseComponent"] = (rng.normal(0, 1, size=len(df)) * df["NoiseSigma"] * df["
 
 # Rare shocks, Sales/Marketing mostly positive(think promos and launches), Ops/HR/Finance mostly negative(Unplanned costs)
 # Probability for a shock
-P_SHOCKS = {"Sales": 0.06,
+P_SHOCK = {"Sales": 0.06,
             "Operations": 0.05,
             "Marketing": 0.06,
             "HR": 0.04,
@@ -264,3 +264,16 @@ SHOCK_SCALE = {"Sales": 0.06,
                "HR": 0.04,
                "Finance": 0.03
 }
+
+# Map our params to departments
+P = df["Department"].map(P_SHOCKS).astype("Float64")
+ShockLocation = df["Department"].map(SHOCK_LOC).astype("Float64")
+ShockScale = df["Department"].map(SHOCK_SCALE).astype("Float64")
+
+# Bernoullli draw for flags
+df["ShockFlag"] = (rng.random(len(df)) < P).astype("boolean")
+
+# Laplace-heavy tail draw, then scale/bias by Budget
+lap = rng.laplace(0.0, 1.0, size=len(df))
+shock_raw = (ShockLocation * df["Budget"]) + (lap * ShockScale * df["Budget"])
+df["ShockComponent"] = np.where(df["ShockFlag"], shock_raw, 0.0).astype("Float64")
