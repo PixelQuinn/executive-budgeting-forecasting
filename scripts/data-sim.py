@@ -266,7 +266,7 @@ SHOCK_SCALE = {"Sales": 0.06,
 }
 
 # Map our params to departments
-P = df["Department"].map(P_SHOCKS).astype("Float64")
+P = df["Department"].map(P_SHOCK).astype("Float64")
 ShockLocation = df["Department"].map(SHOCK_LOC).astype("Float64")
 ShockScale = df["Department"].map(SHOCK_SCALE).astype("Float64")
 
@@ -277,3 +277,4 @@ df["ShockFlag"] = (rng.random(len(df)) < P).astype("boolean")
 lap = rng.laplace(0.0, 1.0, size=len(df))
 shock_raw = (ShockLocation * df["Budget"]) + (lap * ShockScale * df["Budget"])
 df["ShockComponent"] = np.where(df["ShockFlag"], shock_raw, 0.0).astype("Float64")
+
