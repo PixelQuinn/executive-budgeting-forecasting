@@ -278,3 +278,5 @@ lap = rng.laplace(0.0, 1.0, size=len(df))
 shock_raw = (ShockLocation * df["Budget"]) + (lap * ShockScale * df["Budget"])
 df["ShockComponent"] = np.where(df["ShockFlag"], shock_raw, 0.0).astype("Float64")
 
+# Formula for Actuals
+df["Actual"] = (df["Budget"] + df["NoiseComponent"] + df["ShockComponent"]).clip(lower=0).astype("Float64")
