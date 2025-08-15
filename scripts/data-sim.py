@@ -207,3 +207,22 @@ print(m.round(4))   # expect ~1.0000 for each dept
 
 mm = df.groupby("Department")["SeasonalityComponent"].agg(["min","max"])
 print(mm.round(4))  # expect min ≈ 1 - amp, max ≈ 1 + amp
+
+# # Put it together to calculate budget
+# df["Budget"] =(
+#      (df["BaseLevel"] + df["TrendComponent"]) * df["SeasonalityComponent"]
+# ).astype("Float64")
+
+# # Sanity tests for budget
+# # 1) Basic integrity
+# assert df["Budget"].notna().all()
+# assert str(df["Budget"].dtype) == "Float64"
+# assert (df["Budget"] > 0).all()
+
+# # 2) YoY growth ≈ annualized DeptGrowth (allow wobble from seasonality)
+# tmp = df.assign(Year=df["Month"].dt.year)
+# yoy = tmp.groupby(["Department","Year"], observed=False)["Budget"].mean().unstack().pct_change(axis=1)
+
+# expected_yoy = pd.Series({d: (1 + g)**12 - 1 for d, g in GROWTH_RATES.items()}, name="expected")
+# check = yoy.mean(axis=1).to_frame("yoy_avg").join(expected_yoy)
+# print(check.round(3))
