@@ -280,3 +280,13 @@ df["ShockComponent"] = np.where(df["ShockFlag"], shock_raw, 0.0).astype("Float64
 
 # Formula for Actuals
 df["Actual"] = (df["Budget"] + df["NoiseComponent"] + df["ShockComponent"]).clip(lower=0).astype("Float64")
+
+# Baseline forecast to start
+# Sort by department then month
+df = df.sort_values(["Department", "Month"])
+
+df["Forecast"] = (
+    df.groupby("Department")["Actual"]
+    .transform(lambda s: s.rolling(window=3, min_periods=1).mean())
+    .astype("Float64")
+)
