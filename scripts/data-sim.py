@@ -304,6 +304,7 @@ df["PctVariance"] = (df["Variance"] / df["Budget"]).astype("Float64")
 df["Year"] = df["Month"].dt.year
 df["Quarter"] = df["Month"].dt.quarter
 df["QuarterPeriod"] = df["Month"].dt.to_timestamp().dt.to_period("Q")
+df["YearlyPeriod"] = df["Month"].dt.to_timestamp().dt.to_period("Y")
 
 # Aggregate for quarter
 quarterly_totals = (
@@ -324,3 +325,20 @@ quarterly_totals["QuarterPctVariance"] = (quarterly_totals["QuarterVariance"] / 
 quarterly_totals["ShockRate"] = (quarterly_totals["ShockCount"] / quarterly_totals["Months"]).astype("Float64")
 
 # YTD Calcs
+# Aggregate for year
+yearly_totals = (
+    df.groupby(["Department", "YearlyPeriod"], observed=False)
+    .agg(
+        YearlyBudget = ("Budget", "sum"),
+        YearlyActual = ("Actual", "sum"),
+        YearlyForecast = ("Forecast", "sum"),
+        ShockCount = ("ShockFlag", "sum"),
+        MonthsInYear = ("Year", "size")
+    )
+    .reset_index()
+)
+
+# Calculations for yearly measures
+yearly_totals["YearlyVariance"] = (yearly_totals["YearlyActual"] - yearly_totals["YearlyBudget"]).astype("Float64")
+yearly_totals["YearlyPctVariance"] = (yearly_totals["YearlyVariance"] / yearly_totals["YearlyBudget"]).astype("Float64")
+yearly_totals["ShockRate"] = (yearly_totals["ShockCount"] /  yearly_totals["MonthsInYear"]).astype("Float64")
