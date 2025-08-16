@@ -17,7 +17,7 @@ END_MONTH = "2024-12" # Last month in simmed data
 # Departments to simulate for data
 DEPARTMENTS = ["Finance", "HR", "Sales", "Operations", "Marketing"]
 
-OUTPUT_DIR = "../data" 
+OUTPUT_DIR = "./data" 
 KEEP_QA_COMPONENTS = True # Change to keep intermediate QA columns(True) or not(False) for debugging
 
 # --- Index ---
@@ -360,23 +360,50 @@ core = ["Department", "Month", "Budget", "Actual", "Forecast", "Variance", "PctV
 
 qa = ["BaseLevel", "DeptGrowth", "TrendComponent", "SeasonAmp", "SeasonPhase", "NoiseSigma", "NoiseComponent", "ShockComponent"]
 
+df = df.loc[:, core + (qa if KEEP_QA_COMPONENTS else [])]
 # --- Export Simmed Data as .csv ---
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# Monthly 
+# Monthly
 df_out = df.copy()
+
+# === ROUNDING (export formatting only) ===
+money_cols_monthly = ["Budget","Actual","Forecast","Variance","YTD_Budget","YTD_Actual","YTD_Variance"]
+pct_cols_monthly   = ["PctVariance","YTD_PctVariance"]
+df_out[money_cols_monthly] = df_out[money_cols_monthly].round(2)
+df_out[pct_cols_monthly]   = df_out[pct_cols_monthly].round(2)
+# ========================================
+
 df_out["MonthTS"] = df_out["Month"].dt.to_timestamp("M")
-df_out.to_csv(f"../data/monthly_sim.csv", index=False)
-df_out.drop(columns=["Month"]).to_parquet(f"../data/monthly_sim.parquet", index=False)
+df_out["QuarterPeriod"] = df_out["QuarterPeriod"].astype(str)
+df_out["YearlyPeriod"]  = df_out["YearlyPeriod"].astype(str)
+df_out.to_csv(os.path.join(OUTPUT_DIR, "monthly_sim.csv"), index=False)
+df_out.drop(columns=["Month"]).to_parquet(os.path.join(OUTPUT_DIR, "monthly_sim.parquet"), index=False)
 
 # Quarterly
 qt = quarterly_totals.copy()
+
+# === ROUNDING (quarterly) ===
+money_cols_qt = ["QuarterBudget","QuarterActual","QuarterForecast","QuarterVariance"]
+pct_cols_qt   = ["QuarterPctVariance"]
+qt[money_cols_qt] = qt[money_cols_qt].round(2)
+qt[pct_cols_qt]   = qt[pct_cols_qt].round(2)
+# ============================
+
 qt["QuarterPeriod"] = qt["QuarterPeriod"].astype(str)
-qt.to_csv(f"../data/quarterly_sim,csv", index=False)
-qt.to_parquet(f"../data/quarterly_sim.paraquet", index=False)
+qt.to_csv(os.path.join(OUTPUT_DIR, "quarterly_sim.csv"), index=False)
+qt.to_parquet(os.path.join(OUTPUT_DIR, "quarterly_sim.parquet"), index=False)
 
 # Yearly
 yt = yearly_totals.copy()
+
+# === ROUNDING (yearly) ===
+money_cols_yr = ["YearlyBudget","YearlyActual","YearlyForecast","YearlyVariance"]
+pct_cols_yr   = ["YearlyPctVariance"]
+yt[money_cols_yr] = yt[money_cols_yr].round(2)
+yt[pct_cols_yr]   = yt[pct_cols_yr].round(2)
+# =========================
+
 yt["YearlyPeriod"] = yt["YearlyPeriod"].astype(str)
-yt.to_csv(f"../data/yearly_sim.csv", index=False)
-yt.to_parquet(f"../data/yearly_sim.parquet", index=False)
+yt.to_csv(os.path.join(OUTPUT_DIR, "yearly_sim.csv"), index=False)
+yt.to_parquet(os.path.join(OUTPUT_DIR, "yearly_sim.parquet"), index=False)
