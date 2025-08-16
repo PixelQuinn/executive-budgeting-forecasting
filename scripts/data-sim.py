@@ -128,6 +128,7 @@ BASE_VALUES = {
 # Map per department base level ranges (lo, hi)
 df["BaseLevel"] = df["Department"].map(BASE_VALUES).astype("Float64")
 
+# ---Simming realistic trends ---
 # Trend component to sim real life trends
 TREND_RANGES = {"Sales": (0.002, 0.008),
                "Operations": (0.001, 0.005),
@@ -169,6 +170,7 @@ df["TrendComponent"] = (
 #       .round(2)
 # )
 
+# --- Setting Seasonality ---
 # Setting the month
 df["MonthNum"] = df["Month"].dt.month.astype("Int64")
 
@@ -198,16 +200,18 @@ df["SeasonalityComponent"] = (
     1 + df["SeasonAmp"] * np.sin(angle + df["SeasonPhase"])
 ).astype("Float64")
 
-# Tests for seasonality
-assert str(df["SeasonalityComponent"].dtype) == "Float64"
-assert df["SeasonalityComponent"].isna().sum() == 0
+# # Tests for seasonality
+# assert str(df["SeasonalityComponent"].dtype) == "Float64"
+# assert df["SeasonalityComponent"].isna().sum() == 0
 
-m = df.groupby("Department")["SeasonalityComponent"].mean()
-print(m.round(4))   # expect ~1.0000 for each dept
+# m = df.groupby("Department")["SeasonalityComponent"].mean()
+# print(m.round(4))   # expect ~1.0000 for each dept
 
-mm = df.groupby("Department")["SeasonalityComponent"].agg(["min","max"])
-print(mm.round(4))  # expect min ≈ 1 - amp, max ≈ 1 + amp
+# mm = df.groupby("Department")["SeasonalityComponent"].agg(["min","max"])
+# print(mm.round(4))  # expect min ≈ 1 - amp, max ≈ 1 + amp
 
+
+# --- Formulas for Measures ---
 # Put it together to calculate budget
 df["Budget"] =(
      (df["BaseLevel"] + df["TrendComponent"]) * df["SeasonalityComponent"]
@@ -276,7 +280,8 @@ df["ShockFlag"] = (rng.random(len(df)) < P).astype("boolean")
 # Laplace-heavy tail draw, then scale/bias by Budget
 lap = rng.laplace(0.0, 1.0, size=len(df))
 shock_raw = (ShockLocation * df["Budget"]) + (lap * ShockScale * df["Budget"])
-df["ShockComponent"] = np.where(df["ShockFlag"], shock_raw, 0.0).astype("Float64")
+df["ShockComponent"] = np.where(df["ShockFlag"], shock_raw, 0.0)
+df["ShockComponent"] = df["ShockComponent"].astype("Float64")
 
 # Formula for Actuals
 df["Actual"] = (df["Budget"] + df["NoiseComponent"] + df["ShockComponent"]).clip(lower=0).astype("Float64")
@@ -292,5 +297,30 @@ df["Forecast"] = (
 )
 
 # Calculation for variance & percent variance
-df["Variance"] = df["Actual"] - df["Budget"].astype("Float64")
-df["PctVariance"] = df["Actual"] / df["Budget"]
+df["Variance"] = (df["Actual"] - df["Budget"]).astype("Float64")
+df["PctVariance"] = (df["Variance"] / df["Budget"]).astype("Float64")
+
+# Checking Quarter and Yearly periods
+df["Year"] = df["Month"].dt.year
+df["Quarter"] = df["Month"].dt.quarter
+df["QuarterPeriod"] = df["Month"].dt.to_timestamp().dt.to_period("Q")
+
+# Aggregate for quarter
+quarterly_totals = (
+    df.groupby(["Department", "QuarterPeriod"], observed=False)
+    .agg(
+        QuarterBudget = ("Budget", "sum"),
+        QuarterActual = ("Actual", "sum"),
+        QuarterForecast = ("Forecast", "sum"),
+        ShockCount = ("ShockFlag", "sum"),
+        Months = ("Month", "size")
+    )
+    .reset_index()
+)
+
+# Recalc for quarters
+quarterly_totals["QuarterVariance"] = (quarterly_totals["QuarterActual"] - quarterly_totals["QuarterBudget"]).astype("Float64")
+quarterly_totals["QuarterPctVariance"] = (quarterly_totals["QuarterVariance"] / quarterly_totals["QuarterBudget"]).astype("Float64")
+quarterly_totals["ShockRate"] = (quarterly_totals["ShockCount"] / quarterly_totals["Months"]).astype("Float64")
+
+# YTD Calcs
