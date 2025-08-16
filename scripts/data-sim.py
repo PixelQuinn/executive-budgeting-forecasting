@@ -351,3 +351,7 @@ df["YTD_Budget"]      = df.groupby(["Department", "Year"], observed=False)["Budg
 df["YTD_Actual"]      = df.groupby(["Department", "Year"], observed=False)["Actual"].cumsum().astype("Float64")
 df["YTD_Variance"]    = (df["YTD_Actual"] - df["YTD_Budget"]).astype("Float64")
 df["YTD_PctVariance"] = (df["YTD_Variance"] / df["YTD_Budget"]).astype("Float64")
+
+# --- Organize Columns ---
+
+# --- Export Simmed Data as .csv ---
