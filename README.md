@@ -164,6 +164,7 @@ Parquet (requires pyarrow or fastparquet):
 -------------------------------------------------------------------------------
 12) REPO STRUCTURE
 -------------------------------------------------------------------------------
+```text
 /executive-budgeting-forecasting
 ├── README.md
 ├── data/                 # outputs (created by script)
@@ -171,6 +172,7 @@ Parquet (requires pyarrow or fastparquet):
 │   └── data-sim.py       # synthetic data generator
 ├── notebooks/            # analysis/forecasting (TBD)
 └── dashboard/            # Power BI / assets (TBD)
+```
 
 Notes:
 - Planning initially mentioned a 24‑month window & categories; the current
