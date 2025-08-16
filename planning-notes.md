@@ -18,12 +18,12 @@ This tool helps executives answer: "How are we performing against our plan, and 
 
 ### 📌 Primary Stakeholders
 
-| Stakeholder         | Role                       | Needs & Pain Points                                                                 |
-|---------------------|----------------------------|--------------------------------------------------------------------------------------|
+| Stakeholder                   | Role                        | Needs & Pain Points                                                                      |
+|-------------------------------|-----------------------------|------------------------------------------------------------------------------------------|
 | Chief Financial Officer (CFO) | Oversees financial strategy | Needs accurate forecasting, clarity on budget variances, and tools for scenario planning |
-| FP&A Analyst         | Builds and updates models  | Needs flexible modeling tools and fast access to department-level data              |
-| Department Heads     | Own and manage budgets     | Need to understand spending vs. plan and justify forecasts                          |
-| CEO / Executives     | Make high-level decisions  | Want summary insights and confidence in reported numbers                            |
+| FP&A Analyst                  | Builds and updates models   | Needs flexible modeling tools and fast access to department-level data                   |
+| Department Heads              | Own and manage budgets      | Need to understand spending vs. plan and justify forecasts                               |
+| CEO / Executives              | Make high-level decisions   | Want summary insights and confidence in reported numbers                                 |
 
 ---
 
