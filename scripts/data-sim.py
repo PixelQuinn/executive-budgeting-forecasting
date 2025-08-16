@@ -208,10 +208,10 @@ print(m.round(4))   # expect ~1.0000 for each dept
 mm = df.groupby("Department")["SeasonalityComponent"].agg(["min","max"])
 print(mm.round(4))  # expect min ≈ 1 - amp, max ≈ 1 + amp
 
-# # Put it together to calculate budget
-# df["Budget"] =(
-#      (df["BaseLevel"] + df["TrendComponent"]) * df["SeasonalityComponent"]
-# ).astype("Float64")
+# Put it together to calculate budget
+df["Budget"] =(
+     (df["BaseLevel"] + df["TrendComponent"]) * df["SeasonalityComponent"]
+).astype("Float64")
 
 # # Sanity tests for budget
 # # 1) Basic integrity
@@ -290,3 +290,7 @@ df["Forecast"] = (
     .transform(lambda s: s.rolling(window=3, min_periods=1).mean())
     .astype("Float64")
 )
+
+# Calculation for variance & percent variance
+df["Variance"] = df["Actual"] - df["Budget"].astype("Float64")
+df["PctVariance"] = df["Actual"] / df["Budget"]
