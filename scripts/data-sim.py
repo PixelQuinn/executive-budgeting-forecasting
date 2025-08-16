@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import itertools
+import os
 
 # -----------------------------------------
 # Executive Budgeting + Forecasting Project
@@ -360,3 +361,12 @@ core = ["Department", "Month", "Budget", "Actual", "Forecast", "Variance", "PctV
 qa = ["BaseLevel", "DeptGrowth", "TrendComponent", "SeasonAmp", "SeasonPhase", "NoiseSigma", "NoiseComponent", "ShockComponent"]
 
 # --- Export Simmed Data as .csv ---
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+# Monthly 
+df_out = df.copy()
+df_out["MonthTS"] = df_out["Month"].dt.to_timestamp("M")
+df_out.to_csv(f"../data/monthly_sim.csv", index=False)
+df_out.drop(columns=["Month"]).to_parquet(f"../data/monthly_sim.parquet", index=False)
+
+# Quarterly
