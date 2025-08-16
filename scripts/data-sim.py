@@ -291,7 +291,7 @@ df["Actual"] = (df["Budget"] + df["NoiseComponent"] + df["ShockComponent"]).clip
 df = df.sort_values(["Department", "Month"])
 
 df["Forecast"] = (
-    df.groupby("Department")["Actual"]
+    df.groupby("Department", observed=False)["Actual"]
     .transform(lambda s: s.rolling(window=3, min_periods=1).mean())
     .astype("Float64")
 )
@@ -353,5 +353,10 @@ df["YTD_Variance"]    = (df["YTD_Actual"] - df["YTD_Budget"]).astype("Float64")
 df["YTD_PctVariance"] = (df["YTD_Variance"] / df["YTD_Budget"]).astype("Float64")
 
 # --- Organize Columns ---
+core = ["Department", "Month", "Budget", "Actual", "Forecast", "Variance", "PctVariance", "ShockFlag",
+        "Year", "Quarter", "QuarterPeriod", "YearlyPeriod", "YTD_Budget", "YTD_Actual", "YTD_Variance",
+        "YTD_PctVariance"]
+
+qa = ["BaseLevel", "DeptGrowth", "TrendComponent", "SeasonAmp", "SeasonPhase", "NoiseSigma", "NoiseComponent", "ShockComponent"]
 
 # --- Export Simmed Data as .csv ---
