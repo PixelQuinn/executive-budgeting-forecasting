@@ -370,3 +370,8 @@ df_out.to_csv(f"../data/monthly_sim.csv", index=False)
 df_out.drop(columns=["Month"]).to_parquet(f"../data/monthly_sim.parquet", index=False)
 
 # Quarterly
+qt = quarterly_totals.copy()
+qt["QuarterPeriod"] = qt["QuarterPeriod"].astype(str)
+qt.to_csv(f"../data/quarterly_sim,csv", index=False)
+qt.to_paraquet(f"../data/quarterly_sim.paraquet", index=False)
+
