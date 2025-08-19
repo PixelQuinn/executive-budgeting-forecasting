@@ -242,11 +242,11 @@ NOISE_SIGMA = {"Sales": 0.08,
 
 df["NoiseSigma"] = df["Department"].map(NOISE_SIGMA).astype("Float64")
 
-# Normal scaled by Budget
+# --- Normal scaled by Budget ---
 df["NoiseComponent"] = (rng.normal(0, 1, size=len(df)) * df["NoiseSigma"] * df["Budget"]).astype("Float64")
 
-# Rare shocks, Sales/Marketing mostly positive(think promos and launches), Ops/HR/Finance mostly negative(Unplanned costs)
-# Probability for a shock
+# --- Rare shocks, Sales/Marketing mostly positive(think promos and launches), Ops/HR/Finance mostly negative(Unplanned costs) ---
+# --- Probability for a shock ---
 P_SHOCK = {"Sales": 0.06,
             "Operations": 0.05,
             "Marketing": 0.06,
@@ -254,7 +254,7 @@ P_SHOCK = {"Sales": 0.06,
             "Finance": 0.04
 }
 
-# Shock locations, signs added for clarity on directional bias
+# --- Shock locations, signs added for clarity on directional bias ---
 SHOCK_LOC = {"Sales": +0.03,
              "Marketing": +0.035,
              "Operations": -0.02,
@@ -262,7 +262,7 @@ SHOCK_LOC = {"Sales": +0.03,
              "Finance": -0.01
 }
 
-# Shock scale to set heaviness of tails
+# --- Shock scale to set heaviness of tails ---
 SHOCK_SCALE = {"Sales": 0.06,
                "Marketing": 0.07,
                "Operations": 0.05,
@@ -270,25 +270,25 @@ SHOCK_SCALE = {"Sales": 0.06,
                "Finance": 0.03
 }
 
-# Map our params to departments
+# --- Map our params to departments ---
 P = df["Department"].map(P_SHOCK).astype("Float64")
 ShockLocation = df["Department"].map(SHOCK_LOC).astype("Float64")
 ShockScale = df["Department"].map(SHOCK_SCALE).astype("Float64")
 
-# Bernoullli draw for flags
+# --- Bernoullli draw for flags ---
 df["ShockFlag"] = (rng.random(len(df)) < P).astype("boolean")
 
-# Laplace-heavy tail draw, then scale/bias by Budget
+# --- Laplace-heavy tail draw, then scale/bias by Budget ---
 lap = rng.laplace(0.0, 1.0, size=len(df))
 shock_raw = (ShockLocation * df["Budget"]) + (lap * ShockScale * df["Budget"])
 df["ShockComponent"] = np.where(df["ShockFlag"], shock_raw, 0.0)
 df["ShockComponent"] = df["ShockComponent"].astype("Float64")
 
-# Formula for Actuals
+# --- Formula for Actuals ---
 df["Actual"] = (df["Budget"] + df["NoiseComponent"] + df["ShockComponent"]).clip(lower=0).astype("Float64")
 
-# Baseline forecast to start
-# Sort by department then month
+# --- Baseline forecast to start ---
+# --- Sort by department then month ---
 df = df.sort_values(["Department", "Month"])
 
 df["Forecast"] = (
@@ -297,17 +297,17 @@ df["Forecast"] = (
     .astype("Float64")
 )
 
-# Calculation for variance & percent variance
+# --- Calculation for variance & percent variance ---
 df["Variance"]    = (df["Actual"] - df["Budget"]).astype("Float64")
 df["PctVariance"] = (df["Variance"] / df["Budget"]).astype("Float64")
 
-# Checking Quarter and Yearly periods
+# --- Checking Quarter and Yearly periods ---
 df["Year"]          = df["Month"].dt.year
 df["Quarter"]       = df["Month"].dt.quarter
 df["QuarterPeriod"] = df["Month"].dt.to_timestamp().dt.to_period("Q")
 df["YearlyPeriod"]  = df["Month"].dt.to_timestamp().dt.to_period("Y")
 
-# Aggregate for quarter
+# --- Aggregate for quarter ---
 quarterly_totals = (
     df.groupby(["Department", "QuarterPeriod"], observed=False)
     .agg(
@@ -320,13 +320,13 @@ quarterly_totals = (
     .reset_index()
 )
 
-# Recalc for quarters
+# --- Recalc for quarters ---
 quarterly_totals["QuarterVariance"]    = (quarterly_totals["QuarterActual"] - quarterly_totals["QuarterBudget"]).astype("Float64")
 quarterly_totals["QuarterPctVariance"] = (quarterly_totals["QuarterVariance"] / quarterly_totals["QuarterBudget"]).astype("Float64")
 quarterly_totals["ShockRate"]          = (quarterly_totals["ShockCount"] / quarterly_totals["Months"]).astype("Float64")
 
-# Yearly Calcs
-# Aggregate for year
+# --- Yearly Calcs ---
+# --- Aggregate for year ---
 yearly_totals = (
     df.groupby(["Department", "YearlyPeriod"], observed=False)
     .agg(
@@ -339,15 +339,15 @@ yearly_totals = (
     .reset_index()
 )
 
-# Calculations for yearly measures
+# --- Calculations for yearly measures ---
 yearly_totals["YearlyVariance"]    = (yearly_totals["YearlyActual"] - yearly_totals["YearlyBudget"]).astype("Float64")
 yearly_totals["YearlyPctVariance"] = (yearly_totals["YearlyVariance"] / yearly_totals["YearlyBudget"]).astype("Float64")
 yearly_totals["ShockRate"]         = (yearly_totals["ShockCount"] /  yearly_totals["MonthsInYear"]).astype("Float64")
 
-# Ensure the order
+# --- Ensure the order ---
 df = df.sort_values(["Department", "Year", "Month"])
 
-# YTD calculations
+# --- YTD calculations ---
 df["YTD_Budget"]      = df.groupby(["Department", "Year"], observed=False)["Budget"].cumsum().astype("Float64")
 df["YTD_Actual"]      = df.groupby(["Department", "Year"], observed=False)["Actual"].cumsum().astype("Float64")
 df["YTD_Variance"]    = (df["YTD_Actual"] - df["YTD_Budget"]).astype("Float64")
