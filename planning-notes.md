@@ -218,5 +218,7 @@ The resulting dataset will have columns for `Date`.  `Department`, `Category`, `
 ## ✏️ Notes & Scratch Space
 
 _(Use this section to jot down ideas, rough math, assumptions, or links to resources.)_
-
+- Pre-learning added to milestone and roadmap eta.
+- Synthetic data completed and date updated on milestones.
+- Forecast eval. being completed before model implementation.
 ---
